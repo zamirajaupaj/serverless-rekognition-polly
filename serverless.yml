@@ -1,0 +1,73 @@
+
+service: ai
+
+custom: 
+  params: ${file(./params.yml)}
+
+provider:
+  name: aws
+  runtime: python2.7
+  stage: dev
+  region: ${self:custom.params.region}
+  deploymentBucket: 
+    name: ${self:custom.params.bucketName}
+  iamRoleStatements:
+    - Effect: "Allow"        
+      Action:
+        - s3:*
+      Resource: "*"
+    - Effect: "Allow"        
+      Action:
+        - logs:CreateLogGroup
+        - logs:CreateLogStream
+        - logs:PutLogEvents   
+      Resource: "*"
+    - Effect: "Allow"        
+      Action:
+        - polly:SynthesizeSpeech
+        - rekognition:DetectText
+        - dynamodb:PutItem   
+      Resource: "*"
+
+functions:
+  lambda:
+    DependsOn:
+    handler: lambda/index.lambda_handler
+    name: ${self:custom.params.lambdaName}
+    description: covert the text from images in audio using polly
+    environment:
+      tableName: ${self:custom.params.dynamoTableName}
+    memorysize: 512
+    timeout: 10
+    events:
+      - s3: 
+          bucket:  ${self:custom.params.bucketNameAI}
+          event:  s3:ObjectCreated:*
+          rules:
+            #- prefix:  uploads/
+            - suffix:  .jpg
+
+resources:
+  Resources:
+    # dynamoDb table
+    dynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Delete
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.params.dynamoTableName}
+
+
+
+
+  
