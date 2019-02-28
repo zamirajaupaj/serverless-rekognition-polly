@@ -2,9 +2,6 @@
 
 [![Join the chat at https://gitter.im/Zamira-Jaupaj/serverless-rekognition-polly](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Zamira-Jaupaj/serverless-rekognition-polly)
 
-[![Build Status](https://travis-ci.org/zamirajaupaj/serverless-rekognition-polly.svg?branch=master)](
-https://travis-ci.org/zamirajaupaj/serverless-rekognition-polly)
-
 ### Requirements 
 * Serverless framework 
 * AWS Account 
