@@ -1,7 +1,12 @@
+# Custom Variables
 region: eu-west-1
 owner: Zamira Jaupaj
-bucketName: zamiratest
-dynamoTableName: zamiratest
-lambdaName: zamiratest
-bucketNameAI: zamiratest5
+#my-custom-bucket-name to host serverlees application
+bucketName: zamirademo
+#my-custom-dynamo_name
+dynamoTableName: zamirademo
+#my-custom-lambda_name
+lambdaName: zamirademo
+#my-custom-bucket-name to upload the images
+bucketNameAI: zamirademo
 
